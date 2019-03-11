@@ -1,14 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
-//helper function
-import { formatPrice } from '../HelperFunctions/formatPrice';
-
-// material ui styles - test
-import { withStyles } from '@material-ui/core/styles';
-
-
-// material ui components
+// @material-ui components
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,6 +8,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+// helper components
+import PropTypes from 'prop-types';
+
+//helper functions
+import { withStyles } from '@material-ui/core/styles';
+import { formatPrice } from '../HelperFunctions/formatPrice';
 
 
 
@@ -59,7 +58,7 @@ const SnackItem = ( props ) => {
 								{ snack_description }
 							</Typography>
                         </CardContent>
-						<CardActions>
+						<CardActions>e
 							<Button size="small" color="primary">
 								{ formatPrice( snack_price ) }
 							</Button>
@@ -68,12 +67,11 @@ const SnackItem = ( props ) => {
                 ) : null }
 
             </h3>
-            {/*<button onClick={this.handleClick} disabled={!isAvailable}>{isAvailable ? 'Add To Order' : 'Sold out!'}</button>*/}
         </div>
     );
 };
 
-// SnackItem.propTypes = { classes: PropTypes.object.isRequired };
+SnackItem.propTypes = { classes: PropTypes.object.isRequired };
 
 
 export default withStyles(styles)(SnackItem);
