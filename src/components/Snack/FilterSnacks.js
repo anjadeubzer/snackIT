@@ -25,10 +25,18 @@ class FilterSnacks extends Component {
 
 	constructor() {
 		super();
+		this.handler = this.handleChange.bind(this);
 		this.state = {
+			snackFilter: ""
 		}
 	}
 
+	handleChange = (e) => {
+		this.setState({
+			snackFilter: e.target.value
+		})
+		// this.props.onChange(event.target.value)
+	}
 
 
 	// render our searchField
