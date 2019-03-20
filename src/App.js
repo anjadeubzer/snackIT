@@ -17,6 +17,7 @@ class App extends Component {
 
 	state = {
 		snacks: [],
+		snacksGroups: [],
 		filteredSnacks: [],
 
 		searchArray: [],
@@ -30,25 +31,74 @@ class App extends Component {
 
 	// fetch the data from wordpress
 	getSnackItems = () => {
-		let dataURL = "https://snackit.ritapbest.io/wp-json/wp/v2/snack";
+		let dataURL = "https://snackit.ritapbest.io/wp-json/wp/v2/";
 
-		fetch(dataURL)
+		fetch(dataURL + 'snack')
 			.then(res => res.json())
 			.then(res => {
 				this.setState({
 					snacks: res,
 					filteredSnacks: res,
 			  	})
-			})
+			});
+
+		fetch(dataURL + 'snack_groups')
+			.then(res => res.json())
+			.then(res => {
+				this.setState({
+					snacksGroups: res,
+				})
+			});
 	};
 
 
-	filterSnacks = ( searchArray ) => {
+
+
+	filterSnacks = ( filterTerm ) => {
 		let filteredSnacks = this.state.snacks;
 
-		filteredSnacks = filteredSnacks.filter((snack) => {
-			let poetName = snack.title.toLowerCase() + snack.snack_description.toLowerCase();
-			return poetName.indexOf( searchArray.toLowerCase() ) !== -1;
+		console.log( this.state.snacksGroups );
+
+
+		function escapeRegExp(s) {
+			return s.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+		}
+
+		const theWords = filterTerm
+			.split(/\s+/g)
+			.map(s => s.trim())
+			.filter(s => !!s);
+		const hasTrailingSpace = filterTerm.endsWith(" ");
+		const searchRegex = new RegExp(
+			theWords
+				.map((oneWord, i) => {
+					if (i + 1 === theWords.length && !hasTrailingSpace) {
+						// The last word - ok with the word being "startswith"-like
+						return `(?=.*\\b${escapeRegExp( oneWord )})`;
+					} else {
+						// Not the last word - expect the whole word exactly
+						return `(?=.*\\b${escapeRegExp( oneWord )}\\b)`;
+					}
+				})
+				.join("") + ".+",
+			"gi"
+		);
+
+		filteredSnacks = filteredSnacks.filter(( snack ) => {
+
+			if (
+
+				searchRegex.test( snack.title.rendered ) == true
+
+				|| searchRegex.test( snack.meta.snack_brand ) == true
+				|| searchRegex.test( snack.meta.snack_price ) == true
+				|| searchRegex.test( snack.meta.snack_size ) == true
+				|| searchRegex.test( snack.meta.snack_description ) == true
+				// || searchRegex.test( snack.taxonomies ) == true
+
+			) {
+				return true;
+			}
 		});
 
 		this.setState({
@@ -65,7 +115,10 @@ class App extends Component {
 	typeSearch = ( searchString ) => {
 		this.setState({
 			searchString: searchString,
-		})
+		});
+		this.filterSnacks( searchString );
+		console.log( searchString );
+
 	};
 
 
@@ -103,7 +156,7 @@ class App extends Component {
 					   * a grid with grid items expanding on touch/click
 					   * todo: expanding on click
 					   * todo: buy with one click ( has to be a simple fast process again ) **/}
-					<SnackList snacks={this.state.filteredSnacks} onChange={this.filterSnacks} />
+					<SnackList snacks={this.state.filteredSnacks} />
 
 				</main>
 
