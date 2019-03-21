@@ -15,11 +15,10 @@ import SnackItem from '../Snack/SnackItem';
 
 
 const styles = theme => ({
-	listSection: {
-		// display: 'flex',
-		// flexWrap: 'wrap',
-		// marginLeft: theme.spacing.unit,
-		// marginRight: theme.spacing.unit,
+	root: {
+		flexGrow: 1,
+		minHeight: 100,
+		padding: `0 ${theme.spacing.unit * 3}px`,
 	},
 	container: {
 		display: 'flex',
@@ -39,13 +38,13 @@ class SnackList extends Component {
 		const { classes } = this.props;
 
 		return(
-			<section className={classes.listSection}>
+			<section className={classes.root}>
 				{ this.props.snacks ? (
 
 					<Grid container  className={classes.container} spacing={24}>
 						{Object.keys( this.props.snacks ).map( key => (
 							<Grid item xs={12} sm={6} lg={4} xl={2} key={ key } index={ key }>
-								<SnackItem snack={ this.props.snacks[key] }/>
+								<SnackItem   snack={ this.props.snacks[key] }/>
 							</Grid>
 						))}
 					</Grid>

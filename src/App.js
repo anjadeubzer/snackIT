@@ -4,9 +4,8 @@ import React, { Component } from 'react';
 import SplashStart from './components/SplashScreen/SplashStart';
 import NavBar from './components/NavBar';
 import SnackHero from './components/SnackHero';
-import SearchSnacks from './components/Snack/SearchSnacks';
 import SnackList from './components/Snack/SnackList';
-import Cart from './components/Cart/Cart';
+// import Cart from './components/Cart/Cart';
 
 // styles
 import './App.css';
@@ -31,9 +30,10 @@ class App extends Component {
 
 	// fetch the data from wordpress
 	getSnackItems = () => {
+		// let dataURL = "http://hackathon.local/wp-json/wp/v2/";
 		let dataURL = "https://snackit.ritapbest.io/wp-json/wp/v2/";
 
-		fetch(dataURL + 'snack')
+		fetch(dataURL + 'snack?_embed=1')
 			.then(res => res.json())
 			.then(res => {
 				this.setState({
@@ -52,13 +52,9 @@ class App extends Component {
 	};
 
 
-
-
+	// filter function
 	filterSnacks = ( filterTerm ) => {
 		let filteredSnacks = this.state.snacks;
-
-		console.log( this.state.snacksGroups );
-
 
 		function escapeRegExp(s) {
 			return s.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
@@ -68,7 +64,9 @@ class App extends Component {
 			.split(/\s+/g)
 			.map(s => s.trim())
 			.filter(s => !!s);
+
 		const hasTrailingSpace = filterTerm.endsWith(" ");
+
 		const searchRegex = new RegExp(
 			theWords
 				.map((oneWord, i) => {
@@ -81,23 +79,24 @@ class App extends Component {
 					}
 				})
 				.join("") + ".+",
-			"gi"
+			"gi" // gi means case insensitiv
 		);
 
 		filteredSnacks = filteredSnacks.filter(( snack ) => {
 
 			if (
+				searchRegex.test( snack.title.rendered ) === true
 
-				searchRegex.test( snack.title.rendered ) == true
-
-				|| searchRegex.test( snack.meta.snack_brand ) == true
-				|| searchRegex.test( snack.meta.snack_price ) == true
-				|| searchRegex.test( snack.meta.snack_size ) == true
-				|| searchRegex.test( snack.meta.snack_description ) == true
-				// || searchRegex.test( snack.taxonomies ) == true
+				|| searchRegex.test( snack.meta.snack_brand ) === true
+				|| searchRegex.test( snack.meta.snack_price ) === true
+				|| searchRegex.test( snack.meta.snack_size ) === true
+				|| searchRegex.test( snack.meta.snack_description ) === true
 
 			) {
 				return true;
+			}
+			else {
+				return false;
 			}
 		});
 
@@ -106,19 +105,13 @@ class App extends Component {
 		})
 	};
 
-
-	tagSearch = ( searchArray ) => {
-		this.setState({
-			searchArray: searchArray,
-		})
-	};
+	// getting State from Search
 	typeSearch = ( searchString ) => {
 		this.setState({
 			searchString: searchString,
 		});
 		this.filterSnacks( searchString );
 		console.log( searchString );
-
 	};
 
 
@@ -142,15 +135,7 @@ class App extends Component {
 
 					{ /** Hero unit - a decorative visual header
 					    * that helps to understand where you are **/}
-					<SnackHero />
-
-					{/** -- quick filter possibilities
-					   * todo: create two(three) ways of filtering
-					   * It is possible to choose one! no combination for the sake of simplicity (KISS)
-					   * 1) tag filtering by showing snackGroups and tags ( search by touch/click )
-					   * 2) search input ( search by typing )
-					   * 3) favorites - latest checkout products sorted by times of consumption **/}
-					<SearchSnacks tagSearch={this.tagSearch} typeSearch={this.typeSearch} />
+					<SnackHero  typeSearch={this.typeSearch} />
 
 					{/** -- list of snacks
 					   * a grid with grid items expanding on touch/click

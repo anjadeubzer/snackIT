@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // @material-ui components
 import TextField from '@material-ui/core/TextField';
-import Popper from '@material-ui/core/Popper';
+// import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
@@ -21,6 +21,7 @@ const styles = theme => ({
 	root: {
 		flexGrow: 1,
 		minHeight: 100,
+		padding: `0 ${theme.spacing.unit * 3}px`,
 	},
 	container: {
 		flexGrow: 1,
@@ -197,14 +198,15 @@ class DownshiftMultiple extends Component {
 						  inputValue: '',
 						  selectedItem,
 					  });
-		this.props.tagSearch( selectedItem, this.props.searchString, );
+		// this.props.tagSearch( selectedItem, this.props.searchString, );
 	};
 
 	handleDelete = item => () => {
 		this.setState(state => {
 			const selectedItem = [...state.selectedItem];
 			selectedItem.splice(selectedItem.indexOf(item), 1);
-			return { selectedItem };
+			// this.props.tagSearch( selectedItem, this.props.searchString, );
+		return { selectedItem };
 		});
 	};
 

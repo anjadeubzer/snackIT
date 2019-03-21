@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import SearchSnacks from './Snack/SearchSnacks';
 
 // @material-ui components
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import SearchIcon from '@material-ui/icons/Search';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FilterIcon from '@material-ui/icons/FilterList';
 
 // helper components
 import PropTypes from 'prop-types';
@@ -15,15 +20,18 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
 	heroSection: {
+		margin: '0 -20',
 		// backgroundColor: theme.palette.background.paper,
 	},
 	heroContent: {
-		maxWidth: 600,
+		// maxWidth: 600,
 		margin: '0 auto',
-		padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`,
+		padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 0}px`,
+		backgroundColor: theme.palette.primary.light,
 	},
-	heroButtons: {
-		marginTop: theme.spacing.unit * 4,
+
+	tabsContainer: {
+		marginBottom: theme.spacing.unit * 4,
 	},
 });
 
@@ -31,17 +39,19 @@ const styles = theme => ({
 
 class SnackHero extends Component {
 
-	constructor() {
-		super();
-		this.state = {
-		}
-	}
+	state = {
+		value: 0,
+	};
 
-
+	handleChange = (event, value) => {
+		this.setState({ value });
+	};
 
 	// render our searchField
 	render() {
 		const { classes } = this.props;
+		const { value } = this.state;
+
 		return (
 			<section className={classes.heroSection}>
 				<div className={classes.heroContent}>
@@ -54,26 +64,35 @@ class SnackHero extends Component {
 						Choose your snack …
 					</Typography>
 
-					<div className={classes.heroButtons}>
-						<Grid container spacing={16} justify="center">
-							<Grid item>
-								<Button variant="contained" color="primary">
-									Search
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button variant="outlined" color="primary">
-									Filter
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button variant="outlined" color="primary">
-									Favorites
-								</Button>
-							</Grid>
-						</Grid>
-					</div>
+					<Tabs
+						className={classes.tabsContainer}
+						value={this.state.value}
+						onChange={this.handleChange}
+						variant="fullWidth"
+						indicatorColor="secondary"
+						textColor="secondary"
+					>
+						<Tab icon={<SearchIcon />} label="Search" />
+						<Tab icon={<FilterIcon />} label="Filter" />
+						<Tab icon={<FavoriteIcon />} label="My Favorites" />
+					</Tabs>
+
+
+
+					{/** -- quick filter possibilities
+					 * todo: create two(three) ways of filtering
+					 * It is possible to choose one! no combination for the sake of simplicity (KISS)
+					 * 1) tag filtering by showing snackGroups and tags ( search by touch/click )
+					 * 2) search input ( search by typing )
+					 * 3) favorites - latest checkout products sorted by times of consumption **/}
+
 				</div>
+				{value === 0 && <SearchSnacks
+					className = { classes.searchSnacks }
+					typeSearch = { this.props.typeSearch }
+				/>}
+				{value === 1 && <div>The Filter Tags</div>}
+				{value === 2 && <div>Show my Favorites</div>}
 			</section>
 		)
 	}

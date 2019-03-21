@@ -36,6 +36,8 @@ const SnackItem = ( props ) => {
 	const { title } = props.snack;
 	const { classes } = props;
 
+	// console.log( props.snack._embedded["wp:term"][1] );
+
     return (
         <div className="snack-item">
             <h3 className="snack-name">
@@ -56,6 +58,9 @@ const SnackItem = ( props ) => {
 							<Typography component="p">
 								{ snack_size } <br/>
 								{ snack_description }
+								{Object.keys( props.snack._embedded["wp:term"][1] ).map( key => (
+									<a key={ key } index={ key } href={'#' + props.snack._embedded["wp:term"][1][key].name} >{props.snack._embedded["wp:term"][1][key].name}</a>
+								))}
 							</Typography>
                         </CardContent>
 						<CardActions>e
