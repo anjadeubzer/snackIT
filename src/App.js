@@ -8,9 +8,28 @@ import SnackList from './components/Snack/SnackList';
 // import Cart from './components/Cart/Cart';
 
 // styles
+import 'typeface-roboto';
 import './App.css';
 
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles/index';
+
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			light: '#5db8ff',
+			main: '#0088ce',
+			dark: '#005b9d',
+			contrastText: '#fff',
+		},
+		secondary: {
+			light: '#ffbd45',
+			main: '#fb8c00',
+			dark: '#c25e00',
+			contrastText: '#fff',
+		},
+	},
+});
 
 class App extends Component {
 
@@ -118,37 +137,39 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="SnackIT">
+			<MuiThemeProvider theme={theme}>
+				<div className="SnackIT">
 
-				{ /** -- Splash Screen on App Start
-					* todo: function that loads Splash screens function their condition
-					* -- first start ( onboarding - with a little help!? )
-					* -- simple quick start ( get the drink quick without hassle )
-					* -- after 6pm beer screen ( have fun! ) **/ }
-				<SplashStart />
+					{ /** -- Splash Screen on App Start
+					 * todo: function that loads Splash screens function their condition
+					 * -- first start ( onboarding - with a little help!? )
+					 * -- simple quick start ( get the drink quick without hassle )
+					 * -- after 6pm beer screen ( have fun! ) **/ }
+					<SplashStart />
 
-				{ /** user login & links to Settings/FAQs/help email **/ }
-				<NavBar />
-
-
-				<main>
-
-					{ /** Hero unit - a decorative visual header
-					    * that helps to understand where you are **/}
-					<SnackHero  typeSearch={this.typeSearch} />
-
-					{/** -- list of snacks
-					   * a grid with grid items expanding on touch/click
-					   * todo: expanding on click
-					   * todo: buy with one click ( has to be a simple fast process again ) **/}
-					<SnackList snacks={this.state.filteredSnacks} />
-
-				</main>
+					{ /** user login & links to Settings/FAQs/help email **/ }
+					<NavBar />
 
 
-				{/** -- shortcut link to current checkouts and archived checkouts **/}
-				{/*<Cart/>*/}
-			</div>
+					<main>
+
+						{ /** Hero unit - a decorative visual header
+						 * that helps to understand where you are **/}
+						<SnackHero  typeSearch={this.typeSearch} />
+
+						{/** -- list of snacks
+						 * a grid with grid items expanding on touch/click
+						 * todo: expanding on click
+						 * todo: buy with one click ( has to be a simple fast process again ) **/}
+						<SnackList snacks={this.state.filteredSnacks} />
+
+					</main>
+
+
+					{/** -- shortcut link to current checkouts and archived checkouts **/}
+					{/*<Cart/>*/}
+				</div>
+			</MuiThemeProvider>
 		);
 	}
 }

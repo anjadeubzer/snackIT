@@ -27,7 +27,7 @@ const styles = theme => ({
 		// maxWidth: 600,
 		margin: '0 auto',
 		padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 0}px`,
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.primary.main,
 	},
 
 	tabsContainer: {

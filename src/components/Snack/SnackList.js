@@ -43,7 +43,7 @@ class SnackList extends Component {
 
 					<Grid container  className={classes.container} spacing={24}>
 						{Object.keys( this.props.snacks ).map( key => (
-							<Grid item xs={12} sm={6} lg={4} xl={2} key={ key } index={ key }>
+							<Grid item xs={12} sm={6} lg={4} xl={3} key={ key } index={ key }>
 								<SnackItem   snack={ this.props.snacks[key] }/>
 							</Grid>
 						))}

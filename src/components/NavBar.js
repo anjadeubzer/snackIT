@@ -23,7 +23,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 
-const styles = {
+const styles = theme => ({
 	root: {
 		flexGrow: 1,
 	},
@@ -34,7 +34,10 @@ const styles = {
 		marginLeft: -12,
 		marginRight: 20,
 	},
-};
+	appBar: {
+		backgroundColor: theme.palette.primary.light,
+	}
+});
 
 
 
@@ -72,7 +75,7 @@ class NavBar extends Component {
 						label={auth ? 'Logout' : 'Login'}
 					/>
 				</FormGroup>
-				<AppBar position="static">
+				<AppBar position="static" className={classes.appBar}>
 					<Toolbar>
 
 						<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
