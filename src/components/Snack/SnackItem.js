@@ -85,7 +85,7 @@ const SnackItem = ( props ) => {
 	// const { imageURL } = 0;
 	// const imageURL = props.snack._embedded['wp:featuredmedia']['0'].source_url;
 
-	let imageUrl = 'https://placeimg.com/300/300/animals';
+	let imageUrl = "https://placeimg.com/300/300/animals/" + props.snack.id;
 	if( props.snack._embedded['wp:featuredmedia'] ){
 		imageUrl = props.snack._embedded["wp:featuredmedia"][0].media_details.sizes.thumbnail.source_url;
 	}
@@ -101,7 +101,6 @@ const SnackItem = ( props ) => {
 					<CardActionArea className={classes.cardAction}>
 						<CardMedia
 							className={classes.cardmedia}
-
 							image={ imageUrl }
 							title={ title.rendered }
 						/>
