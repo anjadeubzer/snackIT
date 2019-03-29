@@ -2,12 +2,13 @@ import React from 'react';
 
 // @material-ui components
 import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/AddShoppingCart';
 
 // helper components
 import PropTypes from 'prop-types';
@@ -26,25 +27,48 @@ const styles = theme => ({
 	// },
 	card: {
 		display: 'flex',
-		minHeight: 100,
+		// minHeight: 100,
 	},
-	content: {
+	cardAction: {
+		display: 'flex',
+		// minHeight: 100,
+	},
+		cardmedia: {
+			display: 'flex',
+			width: '20%',
+			flexGrow: 0,
+			minHeight: 120,
+		},
+
+		content: {
+			display: 'flex',
+			flexDirection: 'column',
+			flexGrow: 2,
+			color: theme.palette.secondary.contrastText,
+			backgroundColor: theme.palette.primary.light,
+			minHeight: 120,
+			boxSizing: 'border-box',
+		},
+
+	actions: {
 		display: 'flex',
 		flexDirection: 'column',
-		flexGrow: 2,
-		color: theme.palette.secondary.contrastText,
-		backgroundColor: theme.palette.primary.light,
-	},
-	actions: {
-		width: 100,
-		flexGrow: 0,
+		justifyContent: 'center',
+		width: '20%',
+		minHeight: 120,
+
 		color: theme.palette.primary.contrastText,
 		backgroundColor: theme.palette.primary.main,
 	},
-	cardmedia: {
-		width: 100,
-		flexGrow: 0,
+	iconButton: {
+		display: 'flex',
 	},
+	actionsChild: {
+		// display: 'flex',
+		// flexDirection: 'column',
+		// width: '100%',
+	},
+
 	snackBrand: {
 		fontSize: 10,
 	},
@@ -58,37 +82,63 @@ const SnackItem = ( props ) => {
 	// set up variables
 	const { snack_brand, snack_price, snack_size, snack_description, } = props.snack.meta;
 	const { title } = props.snack;
+	// const { imageURL } = 0;
+	// const imageURL = props.snack._embedded['wp:featuredmedia']['0'].source_url;
+
+	let imageUrl = 'https://placeimg.com/300/300/animals';
+	if( props.snack._embedded['wp:featuredmedia'] ){
+		imageUrl = props.snack._embedded["wp:featuredmedia"][0].media_details.sizes.thumbnail.source_url;
+	}
+
 	const { classes } = props;
 
-	// console.log( props.snack._embedded["wp:term"][1] );
+	// console.log( imageURL );
 
     return (
         <div className="snack-item">
 			{ props.snack ? (
 				<Card className={classes.card}>
-					<CardMedia className={classes.cardmedia}
-						image={ "https://placeimg.com/640/480/nature/" + props.index}
-						// image={ props.snack._embedded['wp:featuredmedia'][0].media_details.sizes.large.source_url }
-						title={ title.rendered }
-					/>
-					<CardContent className={classes.content}>
-						<Typography variant="headline" component="h2">
-							{ title.rendered }
-						</Typography>
-						<Typography gutterBottom variant="headline" component="h3" className={classes.snackBrand}>
-							{ snack_brand }
-						</Typography>
-						<Typography component="p">
-							{ snack_size } - {Object.keys( props.snack._embedded["wp:term"][1] ).map( key => (
-								<a key={ key } index={ key } href={'#' + props.snack._embedded["wp:term"][1][key].name} >{props.snack._embedded["wp:term"][1][key].name}</a>
-							))}
-						</Typography>
-					</CardContent>
-					<CardActions className={classes.actions}>
-						<Button size="small" color="primary">
-							{ formatPrice( snack_price ) }
-						</Button>
-					</CardActions>
+					<CardActionArea className={classes.cardAction}>
+						<CardMedia
+							className={classes.cardmedia}
+
+							image={ imageUrl }
+							title={ title.rendered }
+						/>
+						<CardContent className={classes.content}>
+
+							<Typography variant="headline">
+								{ title.rendered }
+							</Typography>
+
+							<Typography variant="subheading" className={classes.snackBrand} gutterBottom>
+								{ snack_brand }
+							</Typography>
+
+							<Typography variant="body1">
+								{ snack_size }ml
+								{/*{Object.keys( props.snack._embedded["wp:term"][1] ).map( key => ( <a key={ key } index={ key } href={'#' + props.snack._embedded["wp:term"][1][key].name} >{props.snack._embedded["wp:term"][1][key].name}</a> ))}*/}
+							</Typography>
+
+						</CardContent>
+						<CardActions className={classes.actions}>
+							<div className={classes.actionsChild}>
+								<DeleteIcon fontSize="large" />
+							</div>
+							<div className={classes.actionsChild}>
+								<Typography variant="subheading">
+									{formatPrice( snack_price )}
+								</Typography>
+							</div>
+
+
+
+
+						</CardActions>
+
+					</CardActionArea>
+
+
 				</Card>
 			) : null }
 		</div>

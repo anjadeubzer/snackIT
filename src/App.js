@@ -12,10 +12,12 @@ import 'typeface-roboto';
 import './App.css';
 
 
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles/index';
 
 const theme = createMuiTheme({
 	palette: {
+		type: 'dark',
 		primary: {
 			light: '#5db8ff',
 			main: '#0088ce',
@@ -31,11 +33,13 @@ const theme = createMuiTheme({
 	},
 });
 
+
+
 class App extends Component {
 
 	state = {
 		snacks: [],
-		snacksGroups: [],
+		snackGroups: [],
 		filteredSnacks: [],
 
 		searchArray: [],
@@ -52,7 +56,7 @@ class App extends Component {
 		// let dataURL = "http://hackathon.local/wp-json/wp/v2/";
 		let dataURL = "https://snackit.ritapbest.io/wp-json/wp/v2/";
 
-		fetch(dataURL + 'snack?_embed=1')
+		fetch(dataURL + 'snack?_embed=1&per_page=100')
 			.then(res => res.json())
 			.then(res => {
 				this.setState({
@@ -65,7 +69,7 @@ class App extends Component {
 			.then(res => res.json())
 			.then(res => {
 				this.setState({
-					snacksGroups: res,
+					snackGroups: res,
 				})
 			});
 	};
@@ -124,6 +128,10 @@ class App extends Component {
 		})
 	};
 
+	filterSnacksByCategory = ( searchArray ) => {
+
+	};
+
 	// getting State from Search
 	typeSearch = ( searchString ) => {
 		this.setState({
@@ -131,6 +139,15 @@ class App extends Component {
 		});
 		this.filterSnacks( searchString );
 		console.log( searchString );
+	};
+
+	// getting State from Search
+	filterSearch = ( searchArray ) => {
+		this.setState({
+			searchArray: searchArray,
+		});
+		this.filterSnacksByCategory( searchArray );
+		console.log( searchArray );
 	};
 
 
@@ -155,7 +172,11 @@ class App extends Component {
 
 						{ /** Hero unit - a decorative visual header
 						 * that helps to understand where you are **/}
-						<SnackHero  typeSearch={this.typeSearch} />
+						<SnackHero
+							filterSearch={this.filterSearch}
+							typeSearch={this.typeSearch}
+							snackGroups={this.state.snackGroups}
+						/>
 
 						{/** -- list of snacks
 						 * a grid with grid items expanding on touch/click

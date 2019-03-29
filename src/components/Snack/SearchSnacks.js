@@ -20,8 +20,10 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
 	root: {
 		flexGrow: 1,
-		minHeight: 100,
-		padding: `0 ${theme.spacing.unit * 3}px`,
+		minHeight: 80,
+		padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 3}px`,
+		backgroundColor: theme.palette.primary.light,
+		marginBottom: theme.spacing.unit * 4,
 	},
 	container: {
 		flexGrow: 1,

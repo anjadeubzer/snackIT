@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import SearchSnacks from './Snack/SearchSnacks';
+import FilterSnacks from './Snack/FilterSnacks';
 
 // @material-ui components
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SearchIcon from '@material-ui/icons/Search';
@@ -26,11 +26,23 @@ const styles = theme => ({
 	heroContent: {
 		// maxWidth: 600,
 		margin: '0 auto',
-		padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 0}px`,
+		padding: `${theme.spacing.unit * 8}px 0 0`,
 		backgroundColor: theme.palette.primary.main,
+		backgroundImage: "url('https://placeimg.com/1000/400/any')",
+		backgroundSize: "cover",
 	},
 
 	tabsContainer: {
+		// marginBottom: theme.spacing.unit * 4,
+		marginTop: theme.spacing.unit * 6,
+		backgroundColor: theme.palette.primary.dark,
+	},
+	tabbedContent: {
+		color: theme.palette.primary.contrastText,
+		flexGrow: 1,
+		minHeight: 80,
+		padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 3}px`,
+		backgroundColor: theme.palette.primary.light,
 		marginBottom: theme.spacing.unit * 4,
 	},
 });
@@ -56,11 +68,11 @@ class SnackHero extends Component {
 			<section className={classes.heroSection}>
 				<div className={classes.heroContent}>
 
-					<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+					<Typography variant="display4" align="center" color="textPrimary">
 						Welcome
 					</Typography>
 
-					<Typography variant="h6" align="center" color="textSecondary" paragraph>
+					<Typography variant="display2" align="center" gutterBottom>
 						Choose your snack …
 					</Typography>
 
@@ -87,12 +99,26 @@ class SnackHero extends Component {
 					 * 3) favorites - latest checkout products sorted by times of consumption **/}
 
 				</div>
-				{value === 0 && <SearchSnacks
-					className = { classes.searchSnacks }
-					typeSearch = { this.props.typeSearch }
-				/>}
-				{value === 1 && <div>The Filter Tags</div>}
-				{value === 2 && <div>Show my Favorites</div>}
+
+				{ // the first tab shows the search by typing the name of the product
+					value === 0 &&
+					<SearchSnacks
+						className={classes.tabbedContent}
+						typeSearch={ this.props.typeSearch }
+					/>
+				}
+				{ // the second tab shows the search by clicking the category or tag name
+					value === 1 &&
+					<FilterSnacks
+						className={classes.tabbedContent}
+						filterSearch={this.filterSearch}
+						snackGroups={ this.props.snackGroups }
+					/> }
+				{ // the third tab shows the latest purchases
+					value === 2 &&
+					<div className={classes.tabbedContent}>My latest Purchases</div>
+				}
+
 			</section>
 		)
 	}
