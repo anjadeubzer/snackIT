@@ -1,68 +1,74 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# hackathon-js4wp-2019
 
-## Available Scripts
 
-In the project directory, you can run:
+## :sparkles: Structure of the the SnackIT App :sparkles:
 
-### `npm start`
+  1. We use https://snackit.ritapbest.io/ as our **headless wordpress installation**
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  2. We have a **plugin** created and installed called 'snack-it' – [snackIT-plugin GIT-REPO](https://github.com/anjadeubzer/snackIT-plugin)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+    the plugin creates:
+    a) a custom post type 'snack' to store all type of snacks
+    b) a custom taxonomy 'snack groups' to categorise them
+    c) tags registered to the 'snack'
+    d) meta fields for the 'snack'
+    e) a gutenberg block to fill out the 'snack' meta fields
+    f) meta field 'balance' for the 'user'
+    g) additional admin columns to easily administrate both the 'users balances' and the 'snack' items
 
-### `npm test`
+  3. We have a **stripped down theme** for the headless installation (from https://github.com/postlight/headless-wp-starter)
+    
+    note: support for featuredimage was added here
+    
+  4. We use [https://snack-it-headless.netlify.com](https://snack-it-headless.netlify.com) as **the rest driven app** populated with the data from the headless wordpress installation
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## :sparkles: Development of the the SnackIT App :sparkles:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**1. Wordpress Setup:**
+  * install a local wordpress inside 'public' folder
+  * download & activate plugin 'snack-it' and add snacks
+  * optional add the headless-wp-starter
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+**2. 'snack-it' Block Development Setup:**
+  * Open terminal, navigate to plugin 'snack-it' and type `npm install`
+  * For changing plugin code run `npm run dev`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**3. Headless App Development Setup:**
+  * cd to 'snack-it-react'
+  * `npm install` and `npm start`
+  * ìf there are snack post types inside wp they will be displayed! :) 
+   
 
-### `npm run eject`
+## :sparkles: Outlining the SnackIT States :sparkles:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**1. We want to browse the available snacks / drinks**
+  * Add / remove snacks in admin backend
+  * List the snacks in the frontend
+  * Filter the list of Snack by typing a name (desktop friendly)
+  * Filter the list by Category / Tag by clicking on the 'chips' (mobile friendly)
+  * Show my favorites / latest purchases (for quickly purchasing the same snack)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**2. We want to buy them (UNFINISHED !!)**
+  * A item can then be clicked to buy it (one-click-purchase)
+  * a snackbar pops up where you can undo accidental purchases
+  * After a minute the checkout is sent to the server and cannot be undone
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**3. I want to purchase the snack on my own account (UNFINISHED !!)**
+  * User registration ( can be neglected in step 1 - the office adds and removes the users through wp-admin )
+  * User Login ( frontend authentication )
+  * User settings page will show the current balance
+  * Step 2: User settings page will show a history of past purchases since the last cleared balance action
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**4. Administrate items and user balances (UNFINISHED !!)**
+  * Admin Backend - All users are listed including their balance in the overview
+    * which can ideally be cleared in the overview view (step 2) via quick edit?!
+    * the balance can be cleared by clicking a button
+  * Add / remove snacks in admin backend
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+**5. Possible nice future Features & Ideas:**
+  * Everybody can register as a snack provider and offer Snacks
+  * balances maybe can be cleared via Apple Pay or similar payment systems
+  * buy a 'snack' via Apple Watch
+  * set availability of a fridge 'snack' to empty (info for quicker refill)
+  * wishlist of 'snacks' 
