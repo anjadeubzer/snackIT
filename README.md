@@ -1,4 +1,8 @@
-# hackathon-js4wp-2019
+# SnackIT 0.1
+
+A App created to purchase snacks in the office quick and easy!
+
+It was created for the  **javascriptforwp.com Hackathon 2019**
 
 
 ## :sparkles: Structure of the the SnackIT App :sparkles:
